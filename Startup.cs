@@ -1,3 +1,4 @@
+using LoginSystem.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,6 +33,7 @@ namespace LoginSystem
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "LoginSystem", Version = "v1" });
             });
+            services.AddMemoryCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,14 +44,14 @@ namespace LoginSystem
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "LoginSystem v1"));
+
             }
 
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             app.UseRouting();
-
             app.UseAuthorization();
-
+            app.UseExceptionHandler(builder => builder.Use(ExceptionMiddleware.ExceptionHandleOptions));
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
