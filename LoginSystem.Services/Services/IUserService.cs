@@ -5,7 +5,8 @@ namespace LoginSystem.Services.Services
     public interface IUserService
     {
         int AddUser(LoginModel regInfoFromForm);
-        void DeleteUser(int cacheKey);
-        UserModel UpdateUser(int cacheKey, UserModel newUserInfo);
+        UserModel GetUserFromCacheById(int id);
+        void DeleteUser(int id);
+        UserModel UpdateUser(int id, UserModel newUserInfo);
     }
 }

@@ -28,24 +28,30 @@ namespace LoginSystem.Services.Services
         public int AddUser(LoginModel regInfoFromForm)
         {
             var newUser = new UserModel();
-            var cacheKey = (int)DateTime.Now.Ticks;
+            var id = (int)DateTime.Now.Ticks;
             newUser.Login = regInfoFromForm.Login;
             newUser.Password = regInfoFromForm.Password;
             newUser.PasswordHash = new SecurityService().GetHash(regInfoFromForm.Password);
 
-            _userCache.Cache.Set<UserModel>(cacheKey, newUser);
-            return cacheKey;
+            _userCache.Cache.Set<UserModel>(id, newUser);
+            return id;
         }
 
-        public void DeleteUser(int cacheKey)
+        public UserModel GetUserFromCacheById(int id)
         {
-            _userCache.Cache.Remove(cacheKey);
+            var userfromCache = _userCache.Cache.Get<UserModel>(id);
+            return userfromCache;
+        }
+
+        public void DeleteUser(int id)
+        {
+            _userCache.Cache.Remove(id);
             return;
         }
 
-        public UserModel UpdateUser(int cacheKey, UserModel newUserInfo)
+        public UserModel UpdateUser(int id, UserModel newUserInfo)
         {
-            var userToUpdate = _userCache.Cache.Get<UserModel>(cacheKey);
+            var userToUpdate = _userCache.Cache.Get<UserModel>(id);
 
             if (userToUpdate.Login != newUserInfo.Login)
             {
@@ -61,7 +67,7 @@ namespace LoginSystem.Services.Services
                 userToUpdate.PasswordHash = new SecurityService().GetHash(newUserInfo.Password);
             }
 
-            _userCache.Cache.Set<UserModel>(cacheKey, userToUpdate);
+            _userCache.Cache.Set<UserModel>(id, userToUpdate);
             return userToUpdate;
         }
     }

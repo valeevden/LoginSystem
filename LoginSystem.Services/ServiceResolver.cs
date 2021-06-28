@@ -14,7 +14,7 @@ namespace LoginSystem.Services
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISecurityService, SecurityService>();
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            //services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddSingleton<MemoryCacheSingleton>();
         }
     }
