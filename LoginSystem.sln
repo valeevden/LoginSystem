@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginSystem.Api", "LoginSystem.Api\LoginSystem.Api.csproj", "{1FA6CA16-F2E2-45C2-ACF3-B27989D6B69B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CEF08D1D-8C79-4ACB-9910-F354FFD51A06} = {CEF08D1D-8C79-4ACB-9910-F354FFD51A06}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoginSystem.Services", "LoginSystem.Services\LoginSystem.Services.csproj", "{CEF08D1D-8C79-4ACB-9910-F354FFD51A06}"
 EndProject
