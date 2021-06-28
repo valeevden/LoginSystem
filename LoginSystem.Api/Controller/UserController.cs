@@ -1,12 +1,10 @@
-﻿using LoginSystem.Api.Models;
-using LoginSystem.Services;
+﻿using LoginSystem.Services;
+using LoginSystem.Services.Models;
+using LoginSystem.Services.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -21,29 +19,26 @@ namespace LoginSystem.Api.Controller
         private IUserService _userService;
         private MemoryCacheSingleton _userCache;
 
-        public UserController(IMapper mapper,
-                                IUserService userService,
-                                MemoryCacheSingleton userCache)
+        public UserController(IUserService userService, MemoryCacheSingleton userCache)
         {
             _userService = userService;
             _userCache = userCache;
         }
 
         /// <summary>user registration</summary>
-        /// <param name="inputModel">information about registered user</param>
-        /// <returns>rReturn information about added user</returns>
-        [ProducesResponseType(typeof(UserOutputModel), StatusCodes.Status200OK)]
+        /// <param name="inputModel">information from user to register</param>
+        /// <returns>return information about added user</returns>
+        [ProducesResponseType(typeof(UserModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [HttpPost("register")]
         [AllowAnonymous]
-        public ActionResult<UserOutputModel> Register([FromBody] LoginModel inputModel)
+        public ActionResult<UserModel> Register([FromBody] LoginModel inputModel)
         {
             if (!ModelState.IsValid)
             {
                 throw new ValidationException();
             }
-            var userDto = _mapper.Map<UserDto>(inputModel);
-            var id = _userService.AddUser(userDto);
+            var outputModel = _userService.AddUser(inputModel);
             var user = _userService.GetUserById(id);
             var outputModel = _mapper.Map<UserOutputModel>(user);
             return Ok(outputModel);
@@ -76,5 +71,9 @@ namespace LoginSystem.Api.Controller
 
         }
 
+        //if (!_userCache.Cache.TryGetValue(userInfoFromForm.Login, out UserModel cashedModel))
+        //{
+        //    return NotFound("Invalid Memory Cache key");
+        //}
     }
 }
