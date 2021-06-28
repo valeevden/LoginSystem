@@ -24,7 +24,7 @@ namespace LoginSystem.Api.Controller
             _userCache = userCache;
         }
 
-        /// <summary>user registration</summary>
+        /// <summary>Register new User</summary>
         /// <param name="inputModel">information from user to register</param>
         /// <returns>return information about added user</returns>
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
@@ -47,7 +47,7 @@ namespace LoginSystem.Api.Controller
         /// <returns>return information about user</returns>
         [ProducesResponseType(typeof(UserModel), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [HttpGet("user/id")]
+        [HttpGet("id")]
         public ActionResult<UserModel> GetUserById([FromRoute] int Id)
         {
             var model = _userService.GetUserFromCacheById(Id);
