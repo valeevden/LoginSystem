@@ -2,12 +2,13 @@
 
 namespace LoginSystem.Api.Models
 {
-    public class LoginModel
+    public class UserModel
     {
         [Required]
-        [EmailAddress]
         public string Login { get; set; }
         [Required]
         public string Password { get; set; }
+
+        public string HashFromPassword { get; set; }
     }
 }

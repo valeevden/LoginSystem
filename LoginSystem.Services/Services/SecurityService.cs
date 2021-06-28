@@ -6,7 +6,19 @@ using System.Threading.Tasks;
 
 namespace LoginSystem.Services.Services
 {
-    class SecurityService
+    class SecurityService : ISecurityService
     {
+        private static string GetRandomSalt()
+        {
+            return BCrypt.Net.BCrypt.GenerateSalt(12);
+        }
+        public string GetHash(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password, GetRandomSalt());
+        }
+        public bool VerifyPassword(string hashFromCash, string enteredPassword)
+        {
+            return BCrypt.Net.BCrypt.Verify(enteredPassword, hashFromCash);
+        }
     }
 }
